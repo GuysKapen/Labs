@@ -17,6 +17,10 @@
             text-align: right;
         }
 
+        td:last-child {
+            text-align: left;
+        }
+
         textarea {
             width: 100%;
         }
@@ -63,7 +67,7 @@
             </tr>
             <tr>
                 <td>Tom tat</td>
-                <td><textarea type="text" name="tomtat" rows="5"><span id="tomtat-error" class="error"></span></textarea></td>
+                <td><textarea type="text" name="tomtat" rows="5"></textarea><span id="tomtat-error" class="error"></span></td>
             </tr>
             <tr>
                 <td></td>
@@ -84,7 +88,7 @@
         $query = "INSERT INTO baiviet(ma_bviet, tieude, ten_bhat, ma_tloai, tomtat, ma_tgia, ngayviet) values ('$ma_bviet', '$tieude', '$ten_bhat', '$ma_tloai', '$tomtat', '$ma_tgia', '$ngay_viet')";
 
         if ($conn->query($query)) {
-            echo "Title '$tieude' has been added";
+            echo "<p>Bai viet '$tieude' has been added</p>";
         } else {
             echo "Insert failed: " . $conn->error;
         }
@@ -113,7 +117,7 @@
 <script>
         const form = document.getElementById("form");
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
+            let error = false;
 
             const MaError = document.getElementById("ma-bviet-error");
             const tieuDeError = document.getElementById("tieude-error");
@@ -126,37 +130,51 @@
 
             if (!form.elements["ma_bviet"].value) {
                 nameError.textContent = "Ma bai viet is required";
+                error = true;
             }
 
             
             if (!form.elements["tieude"].value) {
-                tieuDe.textContent = "Tieu de is required";
+                tieuDeError.textContent = "Tieu de is required";
+                error = true;
             }
 
             
             if (!form.elements["ma_tgia"].value) {
                 tGiaError.textContent = "Ma tac gia is required";
+                error = true;
             }
 
             
             if (!form.elements["ngayviet"].value) {
                 ngayVietError.textContent = "Ngay viet is required";
+                error = true;
             }
 
             
             if (!form.elements["ten_bhat"].value) {
                 tenBHatError.textContent = "Ten bai hat is required";
+                error = true;
             }
 
             
             if (!form.elements["ma_tloai"].value) {
                 tLoaiError.textContent = "Ma the loai is required";
+                error = true;
             }
 
             
             if (!form.elements["tomtat"].value) {
                 tomtatError.textContent = "Tomtat is required";
+                error = true;
             }
+
+            if (error) {
+                e.preventDefault();
+                return;
+            }
+
+            form.submit();
 
         })
 
