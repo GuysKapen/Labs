@@ -28,3 +28,9 @@ _RES;
         echo "Not found";
     }
 }
+
+function baiviet_id() {
+    include('connect.php');
+    $query = "select max(ma_bviet) + 1 as result from baiviet";
+    return $conn->query($query)->fetch_assoc()['result'];
+}
