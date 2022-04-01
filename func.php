@@ -35,25 +35,29 @@ function search_advance($keyword)
 
     $pro_kw = "";
     $keys = explode('"', $keyword);
-    for ($i = 0; $i < count($keys) - 1; $i++) {
-        $key = trim($keys[$i]);
-        if (!empty($key)) {
-            if ($i == count($keys) - 2) {
-                if (empty(end($keys))) {
-                    $pro_kw = $pro_kw . "$key";
+    if (count($keys) > 1) {
+        for ($i = 0; $i < count($keys) - 1; $i++) {
+            $key = trim($keys[$i]);
+            if (!empty($key)) {
+                if ($i == count($keys) - 2) {
+                    if (empty(end($keys))) {
+                        $pro_kw = $pro_kw . "$key";
+                    } else {
+                        $pro_kw = $pro_kw . "$key%' or tieude like '%" . trim(end($keys));
+                    }
                 } else {
-                    $pro_kw = $pro_kw . "$key%' or tieude like '%" . trim(end($keys));
+                    $pro_kw = $pro_kw . "$key%' or tieude like '%";
                 }
-            } else {
-                $pro_kw = $pro_kw . "$key%' or tieude like '%";
             }
         }
+    } else {
+        $pro_kw = $pro_kw = $pro_kw . "$keyword";
     }
 
     $pro_kw = str_replace('"', "", $pro_kw);
     $query = "select * from baiviet p inner join tacgia a on a.ma_tgia=p.ma_tgia inner join theloai c on c.ma_tloai=p.ma_tloai where p.tieude like '%$pro_kw%'";
 
-    // echo "$query";
+    echo "$query";
 
     $result = $conn->query($query) or die("Query failed: " . $conn->error);
 
