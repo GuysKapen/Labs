@@ -21,7 +21,7 @@
 
         <?php if (isset($_GET['keyword'])) {
             include('func.php');
-            search_advance($_GET['keyword']);
+            search($_GET['keyword']);
         } ?>
 </body>
 
